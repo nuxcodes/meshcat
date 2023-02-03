@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities{
+    
+    .clip-corner {
+        --corner-clip: 14px;
+        clip-path: polygon(var(--corner-clip) 0%, 100% 0, 100% calc(100% - var(--corner-clip)), calc(100% - var(--corner-clip)) 100%, 0 100%, 0 12px);
+        /* transition: ; */
+    }
+    
+    .clip-corner:hover{
+        clip-path: polygon(0% 0%, 100% 0, 100% 100%, 100% 100%, 0 100%, 0 0)
+    }
+
+    .svg-clip{
+        d:path()
+    }
+
+}
+
+@layer base{
+   
+}

@@ -5,12 +5,19 @@ interface GameIntroSectionProps {}
 
 const GameIntroSection: FC<GameIntroSectionProps> = ({}) => {
   return (
-    <div className="flex h-[200px] w-full flex-col items-center bg-red-300 lg:h-[380px]">
-      <img className="" src="" alt="" />
-      <div className="relative top-0 left-0 h-2/3 w-full bg-green-200"></div>
-      <div className="relative top-5 flex flex-col items-center">
+    <div className="relative flex h-[200px] items-start justify-start p-4 lg:h-[420px]">
+      <div className="flex flex-col items-start gap-4 pt-20 pl-10 lg:max-w-2xl">
+        <h1 className="font-display text-xl font-bold md:text-2xl lg:text-3xl">
+          Download the Our Game asd oaidu lkasjd oiasud kj aslkd
+        </h1>
+        <p className="mb-5">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore nisl tincidunt eget.
+          Lectus{' '}
+        </p>
         <Button>Download our Game</Button>
       </div>
+      <div className="h-full w-1/3 bg-slate-800 py-4"></div>
     </div>
   );
 };

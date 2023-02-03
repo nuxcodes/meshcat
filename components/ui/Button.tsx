@@ -1,24 +1,30 @@
 import { cn } from '@/utils/classnames';
-import type { FC, ReactNode } from 'react';
+import { VariantProps, cva } from 'cva';
+import type { ComponentProps, FC, ReactNode } from 'react';
 
-interface ButtonProps {
-  variant?: Variants;
-  children: ReactNode;
-}
+interface ButtonProps
+  extends ComponentProps<'button'>,
+    VariantProps<typeof styles> {}
 
-type Variants = 'primary' | 'secondary' | 'danger';
+const styles = cva('flex items-center justify-center px-4 py-2 font-semibold', {
+  variants: {
+    intent: {
+      primary:
+        'bg-cornflower text-white clip-corner transition-all 0.5s ease-in',
+      secondary: 'bg-gray text-white',
+      danger: 'bg-red text-white',
+    },
+    fullWidth: {
+      true: 'w-full',
+    },
+  },
+});
 
-const styles: Record<Variants, String> = {
-  primary: 'bg-purple-300 text-white',
-  secondary: 'bg-gray text-white',
-  danger: 'bg-red text-white',
-};
-
-const Button: FC<ButtonProps> = ({ variant = 'primary', children }) => {
-  return (
-    <button className={cn('rounded-md p-2 font-semibold', styles[variant])}>
-      {children}
-    </button>
-  );
+const Button: FC<ButtonProps> = ({
+  intent = 'primary',
+  fullWidth,
+  ...props
+}) => {
+  return <button className={styles({ intent, fullWidth })} {...props} />;
 };
 export default Button;

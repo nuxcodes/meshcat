@@ -9,6 +9,7 @@ yarn-error.log*
 node_modules
 /.pnp
 .pnp.js
+.next
 
 # testing
 /coverage
