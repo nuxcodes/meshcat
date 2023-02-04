@@ -1,10 +1,9 @@
 import { cn } from '@/utils/classnames';
 import { VariantProps, cva } from 'cva';
-import type { ComponentProps, FC, ReactNode } from 'react';
+import type { FC } from 'react';
+import { ButtonOrLink, ButtonOrLinkProps } from './ButtonOrLink';
 
-interface ButtonProps
-  extends ComponentProps<'button'>,
-    VariantProps<typeof styles> {}
+interface ButtonProps extends ButtonOrLinkProps, VariantProps<typeof styles> {}
 
 const styles = cva('flex items-center justify-center px-4 py-2 font-semibold', {
   variants: {
@@ -25,6 +24,6 @@ const Button: FC<ButtonProps> = ({
   fullWidth,
   ...props
 }) => {
-  return <button className={styles({ intent, fullWidth })} {...props} />;
+  return <ButtonOrLink className={styles({ intent, fullWidth })} {...props} />;
 };
 export default Button;
