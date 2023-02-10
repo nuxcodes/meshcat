@@ -26,6 +26,12 @@
     "paths": {
       "@/*": [
         "*"
+      ],
+      "@ui/*": [
+        "components/ui/*"
+      ],
+      "@images/*": [
+        "public/images/*"
       ]
     },
     "plugins": [

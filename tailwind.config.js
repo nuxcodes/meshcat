@@ -1,3 +1,5 @@
+const autoprefixer = require('autoprefixer');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -11,6 +13,13 @@ module.exports = {
       "body": "var(--body-font)",
     },
     extend: {
+      container: {
+        center: true,
+        padding: "1.5rem",
+        screens: {
+          "2xl": "1440px",
+        },
+      },
       colors: {
         'cornflower': {
           DEFAULT: '#7761fe',

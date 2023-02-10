@@ -5,7 +5,7 @@ import { ButtonOrLink, ButtonOrLinkProps } from './ButtonOrLink';
 
 interface ButtonProps extends ButtonOrLinkProps, VariantProps<typeof styles> {}
 
-const styles = cva('flex items-center justify-center px-4 py-2 font-semibold', {
+const styles = cva('flex items-center justify-center px-6 py-4 font-semibold', {
   variants: {
     intent: {
       primary:

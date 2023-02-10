@@ -1,7 +1,7 @@
 import { FC, Fragment } from 'react';
 import Link from 'next/link';
 
-interface NavbarProps {}
+interface MainNavProps {}
 
 const navLinks = [
   { href: '/', title: 'HOME' },
@@ -9,13 +9,13 @@ const navLinks = [
   { href: '/editor', title: 'CREATE' },
 ];
 
-const Navbar: FC<NavbarProps> = ({}) => {
+const MainNav: FC<MainNavProps> = ({}) => {
   const navItems = navLinks.map((item) => (
     <Fragment key={item.href}>
       <Link
         href={item.href}
         key={item.href}
-        className="after:ease relative py-1 after:absolute after:bottom-0 after:left-0 after:block after:h-0.5 after:w-full after:origin-top-left
+        className="after:ease relative my-auto after:absolute after:bottom-0 after:left-0 after:block after:h-0.5 after:w-full after:origin-top-left
         after:scale-x-0 after:bg-cornflower after:transition-all after:duration-[400ms] after:content-[''] hover:after:scale-x-100"
       >
         {item.title}
@@ -24,10 +24,10 @@ const Navbar: FC<NavbarProps> = ({}) => {
   ));
 
   return (
-    <div className="flex items-center font-display font-semibold md:gap-6">
+    <div className="flex items-center font-display font-semibold md:gap-[120px] ">
       <Link href="/">LOGO</Link>
       <nav className={'hidden md:flex md:gap-7'}>{navItems}</nav>
     </div>
   );
 };
-export default Navbar;
+export default MainNav;

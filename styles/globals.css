@@ -2,7 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --nav-height: 68px;
+    --mobile-nav-height: 48px;
+}
+
 @layer utilities{
+    
+   
     
     .clip-corner {
         --corner-clip: 14px;
@@ -21,5 +28,8 @@
 }
 
 @layer base{
-   
+    h1 {
+        font-family: var(--display-font);
+        font-weight: bold;
+    }
 }
