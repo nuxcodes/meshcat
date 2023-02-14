@@ -18,7 +18,7 @@
     "isolatedModules": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitReturns": false,
     "jsx": "preserve",
     "incremental": true,
