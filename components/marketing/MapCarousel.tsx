@@ -12,7 +12,7 @@ import {
   ReactElement,
 } from 'react';
 import useImmerReducer from 'immer';
-import items from './MarketSection';
+import items from './MapSection';
 import { stat } from 'fs';
 import { CarouselContextProvider, CarouselContext } from './MapCarouselContext';
 import { cn } from '@/utils/classnames';
@@ -29,27 +29,36 @@ const CarouselItem: FC<CarouselItemProps> = ({ id, itemWidth }) => {
   const length = state.items.length;
 
   return (
-    <div
+    <li
       className={cn(
-        '0.3s inline-block transition-transform ease-in',
+        'inline-block transition-all duration-300  ease-in-out',
         (state.pos[id] < length / 2 - 2 || state.pos[id] > length / 2 + 2) &&
           'opacity-0',
       )}
       style={{
         width: `calc(${itemWidth}rem)`,
-        transform: `translateX(${(state.pos[id] - id) * itemWidth}rem)`,
+        transform: `translateX(${
+          (state.pos[id] - id) * itemWidth
+        }rem) translateY(${
+          state.pos[id] === length / 2 ? '0rem' : '2rem'
+        }) scale(${state.pos[id] === length / 2 ? 1 : 0.65})`,
       }}
     >
-      <li className={`flex flex-col items-start justify-center gap-2 p-1 `}>
-        <img
-          src={`${item.player.image}`}
-          className="aspect-square w-full object-cover"
-          alt="Player"
-        ></img>
-        <h1>{item.player.title}</h1>
-        <p>{item.player.desc}</p>
-      </li>
-    </div>
+      <div className={`relative z-10 m-4 h-full w-full`}>
+        <div className="relative z-10 flex flex-col items-center justify-center gap-4 overflow-clip bg-transparent px-10 pb-8">
+          <img
+            src={`${item.player.image}`}
+            className="aspect-square w-full object-cover"
+            alt="Player"
+          ></img>
+          <h1>{item.player.title}</h1>
+          <p>{item.player.desc}</p>
+          <div className="absolute top-[8rem] z-[-1] h-[calc(100%-8rem)] w-full rounded-xl bg-gradient-to-b from-[#3956aa] to-[rgba(190,_82,_242,_0.2)] p-1 ">
+            <div className="h-full w-full rounded-xl bg-graphite"></div>
+          </div>
+        </div>
+      </div>
+    </li>
   );
 };
 
@@ -57,16 +66,16 @@ interface MapCarouselProps {}
 
 const MapCarousel: FC<MapCarouselProps> = ({}) => {
   const state = useContext(CarouselContext);
-  const itemWidth = 20;
+  const itemWidth = 24;
   const carouselWidth = itemWidth * (state.items.length + 1);
 
   return (
-    <div className="flex h-[500px] w-full items-center justify-center">
+    <div className="mt-16 flex h-[600px] w-full items-center justify-center">
       <button onClick={() => state.dispatch({ type: 'jump', payload: -1 })}>
         Prev
       </button>
       <div
-        className="relative h-[500px] overflow-hidden"
+        className="relative h-full overflow-hidden" //TODO: Adjust width & height display
         style={{ width: `calc(${itemWidth * 3}rem)` }}
       >
         <ul

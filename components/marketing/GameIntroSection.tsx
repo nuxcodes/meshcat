@@ -8,7 +8,7 @@ interface GameIntroSectionProps {}
 const GameIntroSection: FC<GameIntroSectionProps> = ({}) => {
   return (
     <>
-      <section className="container relative  flex min-h-[300px] w-full items-center justify-start overflow-x-visible px-4 md:min-h-[calc(100vh-var(--nav-height))] md:items-center">
+      <section className="container relative flex h-full min-h-[20rem] w-full items-center justify-start overflow-x-visible px-4 md:min-h-[calc(100vh-var(--nav-height))] md:items-center">
         <div className="ml-8 flex flex-col items-start gap-6 sm:ml-14 md:min-w-[300px] md:gap-12">
           <h1 className="text-4xl md:text-6xl md:leading-normal lg:text-7xl xl:text-8xl">
             THE GAME. <br /> NOT <em>A</em> GAME.
