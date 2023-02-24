@@ -11,14 +11,13 @@ interface MapSectionProps {}
 
 const MapSection: FC<MapSectionProps> = ({}) => {
   return (
-    <section className="container relative flex h-screen flex-col items-start justify-center">
-      <h1 className="text-2xl md:text-4xl md:leading-normal lg:text-5xl xl:text-6xl">
-        COMMUNITY MAPS
-      </h1>
-      <p className="lg:my-8 ">
-        Expolore and experience exciting maps made by our player community in
-        Marketplace.
-      </p>
+    <section className="container relative flex h-screen w-screen flex-col items-start justify-center">
+      <div className="landing-sec-pl">
+        <h1 className="landing-sec-heading ">COMMUNITY MAPS</h1>
+        <p className="font-display lg:my-8">
+          {'Explore and experience exciting maps made by our player community in Marketplace.'.toUpperCase()}
+        </p>
+      </div>
       <CarouselContext>
         <MapCarousel></MapCarousel>
       </CarouselContext>

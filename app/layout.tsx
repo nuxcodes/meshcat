@@ -22,14 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={cn(
-        'bg-graphite text-white',
-        saira.variable,
-        notosans.variable,
-      )}
-    >
+    <html lang="en" className={cn(saira.variable, notosans.variable)}>
       <head />
       <body className="min-h-screen">{children}</body>
     </html>

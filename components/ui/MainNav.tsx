@@ -6,7 +6,7 @@ interface MainNavProps {}
 const navLinks = [
   { href: '/', title: 'HOME' },
   { href: '/marketplace', title: 'MARKETPLACE' },
-  { href: '/editor', title: 'CREATE' },
+  { href: '/create', title: 'CREATE' },
 ];
 
 const MainNav: FC<MainNavProps> = ({}) => {
@@ -16,7 +16,7 @@ const MainNav: FC<MainNavProps> = ({}) => {
         href={item.href}
         key={item.href}
         className="after:ease relative my-auto after:absolute after:bottom-0 after:left-0 after:block after:h-0.5 after:w-full after:origin-top-left
-        after:scale-x-0 after:bg-cornflower after:transition-all after:duration-[400ms] after:content-[''] hover:after:scale-x-100"
+        after:scale-x-0 after:bg-berry after:transition-all after:duration-[400ms] after:content-[''] hover:after:scale-x-100"
       >
         {item.title}
       </Link>

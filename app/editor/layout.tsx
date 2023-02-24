@@ -5,6 +5,10 @@ interface layoutProps {
 }
 
 const layout: FC<layoutProps> = ({ children }) => {
-  return <>{children}</>;
+  return (
+    <main className="relative mx-auto flex h-full w-full justify-start overflow-hidden bg-white text-black">
+      {children}
+    </main>
+  );
 };
 export default layout;

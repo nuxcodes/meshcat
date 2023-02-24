@@ -5,14 +5,18 @@ type Props = ComponentProps<'button'> & ComponentProps<'a'>;
 
 export interface ButtonOrLinkProps extends Props {}
 
-export function ButtonOrLink({ href, ...props }: ButtonOrLinkProps) {
+export function ButtonOrLink({ href, target, ...props }: ButtonOrLinkProps) {
   const isLink = typeof href !== 'undefined';
-  const ButtonOrLink = isLink ? 'a' : 'button';
+  const ButtonOrLink = 'button';
 
   let content = <ButtonOrLink {...props} />;
 
   if (isLink) {
-    return <Link href={href}>{content}</Link>;
+    return (
+      <Link href={href} target={target}>
+        {content}
+      </Link>
+    );
   }
 
   return content;
