@@ -56,8 +56,10 @@ const Page: FC<PageProps> = ({}) => {
     <div className="h-screen w-screen">
       <h1>sdafasd</h1>
       <button
+        className=""
         onClick={() => {
           setisSecond(true);
+          createSnapshot();
         }}
       >
         Button
@@ -84,7 +86,9 @@ const Page: FC<PageProps> = ({}) => {
           </e.mesh>
         )}
       </Canvas>
-      <Editor></Editor>
+      <div>
+        <Editor></Editor>
+      </div>
     </div>
   );
 };

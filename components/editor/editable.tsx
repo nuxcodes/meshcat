@@ -3,8 +3,10 @@ import React, {
   forwardRef,
   JSXElementConstructor,
   RefAttributes,
+  useEffect,
   useLayoutEffect,
   useRef,
+  useState,
 } from 'react';
 import {
   DirectionalLight,
@@ -55,10 +57,16 @@ const editable = <
     ) => {
       const objectRef = useRef<Elements[U]>();
 
-      const [addEditable, removeEditable] = useEditorStore(
-        (state) => [state.addEditable, state.removeEditable],
+      const [addEditable, removeEditable, createSnapshot] = useEditorStore(
+        (state) => [
+          state.addEditable,
+          state.removeEditable,
+          state.createSnapshot,
+        ],
         shallow,
       );
+
+      console.log(uniqueName);
 
       const transformDeps: string[] = [];
 
@@ -69,6 +77,10 @@ const editable = <
           props[`scale-${axis}`],
         );
       });
+
+      // useEffect(() => {
+      //   createSnapshot();
+      // }, []);
 
       useLayoutEffect(() => {
         // calculate initial properties before adding the editable
@@ -94,6 +106,8 @@ const editable = <
         const quaternion = new Quaternion().setFromEuler(
           new Euler().setFromVector3(rot),
         );
+
+        console.log('New object added: ' + uniqueName);
 
         addEditable(type, uniqueName, {
           transform: new Matrix4().compose(pos, quaternion, scal),

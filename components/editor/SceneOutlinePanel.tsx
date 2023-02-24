@@ -98,7 +98,7 @@ const SceneOutlinePanel: VFC = () => {
             ),
         )}
       </div>
-      <div className="flex-0 mt-3">
+      <div className="flex-0 mt-3 mb-10">
         <Button
           className="w-full"
           onClick={() => {

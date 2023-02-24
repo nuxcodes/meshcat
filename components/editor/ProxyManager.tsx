@@ -38,6 +38,7 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
     transformControlsMode,
     transformControlsSpace,
     viewportShading,
+    editables,
     setEditableTransform,
   ] = useEditorStore(
     (state) => [
@@ -46,13 +47,24 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
       state.transformControlsMode,
       state.transformControlsSpace,
       state.viewportShading,
+      state.editables,
       state.setEditableTransform,
     ],
     shallow,
   );
-  const sceneProxy = useMemo(() => sceneSnapshot?.clone(), [sceneSnapshot]);
+  const sceneProxy = useMemo(() => {
+    console.log('Memo: cloned sceneSnapshot');
+    return sceneSnapshot?.clone();
+  }, [sceneSnapshot]);
+
+  // const sceneProxy = sceneSnapshot;
   const [editableProxies, setEditableProxies] = useState<{
     [name: string]: EditableProxy;
+  }>({});
+
+  // set up viewport shading modes
+  const [renderMaterials, setRenderMaterials] = useState<{
+    [id: string]: Material | Material[];
   }>({});
 
   // set up scene proxies
@@ -60,10 +72,12 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
     if (!sceneProxy) {
       return;
     }
+    console.log('1st Layout');
 
     const editableProxies: { [name: string]: EditableProxy } = {};
 
     sceneProxy.traverse((object) => {
+      console.log(object.userData.__editableName);
       if (object.userData.__editable) {
         // there are duplicate uniqueNames in the scene, only display one instance in the editor
         if (editableProxies[object.userData.__editableName]) {
@@ -93,6 +107,8 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
       return;
     }
 
+    console.log('2nd Effect');
+
     const unsub = useEditorStore.subscribe(
       (transform) => {
         if (isBeingEdited.current) {
@@ -113,35 +129,36 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
     return () => void unsub();
   }, [editableProxies, selected]);
 
-  // set up viewport shading modes
-  const [renderMaterials, setRenderMaterials] = useState<{
-    [id: string]: Material | Material[];
-  }>({});
-
   useLayoutEffect(() => {
     if (!sceneProxy) {
       return;
     }
+
+    console.log('3rd Layout');
 
     const renderMaterials: {
       [id: string]: Material | Material[];
     } = {};
 
     sceneProxy.traverse((object) => {
+      console.log(object.userData);
+      console.log(object.id);
+      console.log(sceneProxy.getObjectById(object.id));
+
       const mesh = object as Mesh;
-      // if (mesh.isMesh && !mesh.userData.helper) {
-      if (mesh.isMesh) {
+      console.log(mesh.material);
+      if (mesh.isMesh && !mesh.userData.helper) {
         renderMaterials[mesh.id] = mesh.material;
       }
     });
-
+    console.log(renderMaterials);
     setRenderMaterials(renderMaterials);
 
     return () => {
-      Object.entries(renderMaterials).forEach(([id, material]) => {
-        (sceneProxy.getObjectById(Number.parseInt(id)) as Mesh).material =
-          material;
-      });
+      // console.log('Execute return');
+      // Object.entries(renderMaterials).forEach(([id, m]) => {
+      //   (sceneProxy.getObjectById(Number.parseInt(id)) as Mesh).material = m;
+      // });
     };
   }, [sceneProxy]);
 
@@ -149,6 +166,8 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
     if (!sceneProxy) {
       return;
     }
+
+    console.log('4th Layout');
 
     sceneProxy.traverse((object) => {
       const mesh = object as Mesh;

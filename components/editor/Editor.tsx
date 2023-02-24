@@ -97,8 +97,12 @@ const Editor: VFC = () => {
 
   return (
     <div id="react-three-editable-editor-root">
-      <div className="relative z-50 h-screen w-screen">
-        <div className={`fixed ${editorOpen ? 'block' : 'hidden'} inset-0`}>
+      <div className="relative z-50 h-screen w-screen ">
+        <div
+          className={`fixed ${
+            editorOpen ? 'block' : 'hidden'
+          } inset-0 translate-y-10`}
+        >
           {true ? (
             <>
               <div className="relative z-0 h-screen w-screen">
