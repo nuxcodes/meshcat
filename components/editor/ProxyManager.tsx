@@ -129,7 +129,8 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
 
     sceneProxy.traverse((object) => {
       const mesh = object as Mesh;
-      if (mesh.isMesh && !mesh.userData.helper) {
+      // if (mesh.isMesh && !mesh.userData.helper) {
+      if (mesh.isMesh) {
         renderMaterials[mesh.id] = mesh.material;
       }
     });

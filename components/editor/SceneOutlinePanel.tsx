@@ -61,10 +61,16 @@ const ObjectButton: VFC<ObjectButtonProps> = ({
 };
 
 const SceneOutlinePanel: VFC = () => {
-  const [editablesSnapshot, selected, setSelected] = useEditorStore(
-    (state) => [state.editablesSnapshot, state.selected, state.setSelected],
-    shallow,
-  );
+  const [editablesSnapshot, createSnapshot, selected, setSelected] =
+    useEditorStore(
+      (state) => [
+        state.editablesSnapshot,
+        state.createSnapshot,
+        state.selected,
+        state.setSelected,
+      ],
+      shallow,
+    );
 
   if (editablesSnapshot === null) {
     return null;
@@ -96,7 +102,7 @@ const SceneOutlinePanel: VFC = () => {
         <Button
           className="w-full"
           onClick={() => {
-            // createSnapshot();
+            createSnapshot();
           }}
         >
           Sync editor

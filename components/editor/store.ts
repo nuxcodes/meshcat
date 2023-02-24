@@ -174,7 +174,7 @@ export type EditorStore = {
   transformControlsSpace: TransformControlsSpace;
   viewportShading: ViewportShading;
   editorOpen: boolean;
-  sceneSnapshot: Scene | null;
+  sceneSnapshot: Scene | null | undefined;
   editablesSnapshot: Record<string, EditableSnapshot> | null;
   hdrPaths: string[];
   selectedHdr: string | null;
@@ -212,6 +212,7 @@ export type EditorStore = {
   setShowGrid: (show: boolean) => void;
   setShowAxes: (show: boolean) => void;
   setEditorOpen: (open: boolean) => void;
+  createSnapshot: () => void;
   setSnapshotProxyObject: (
     proxyObject: Object3D | null,
     uniqueName: string,
@@ -390,6 +391,13 @@ const config: StateCreator<EditorStore> = (set, get) => {
     },
     setEditorOpen: (open) => {
       set({ editorOpen: open });
+    },
+    createSnapshot: () => {
+      set((state) => ({
+        // sceneSnapshot: state.scene?.clone(),
+        sceneSnapshot: state.scene?.clone(),
+        editablesSnapshot: state.editables,
+      }));
     },
     setSnapshotProxyObject: (proxyObject, uniqueName) => {
       set((state) => ({
