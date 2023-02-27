@@ -55,7 +55,13 @@ export const EditorScene = () => {
       </Suspense>
       {showGrid && <gridHelper args={[1000, 1000, 0x444444, 0x888888]} />}
       {showAxes && <axesHelper args={[500]} />}
-      <OrbitControls ref={orbitControlsRef} />
+      <OrbitControls
+        ref={orbitControlsRef}
+        panSpeed={0.1}
+        zoomSpeed={0.1}
+        keys={{ LEFT: 'A', RIGHT: 'D', UP: 'W', BOTTOM: 'S' }}
+        keyPanSpeed={4}
+      />
       <ProxyManager orbitControlsRef={orbitControlsRef} />
     </>
   );
@@ -96,13 +102,13 @@ const Editor: FC = () => {
   return (
     <div id="react-three-editable-editor-root">
       <div className="relative z-50 h-screen w-screen ">
-        <div className={`fixed ${editorOpen ? 'block' : 'hidden'} inset-0 `}>
+        <div className={`fixed ${editorOpen ? 'block' : 'hidden'} inset-0`}>
           {
             sceneSnapshot ? (
               <>
-                <div className="relative z-0 h-screen w-screen">
+                <div className="z-100 relative h-screen w-screen">
                   <Canvas
-                    camera={{ position: [20, 20, 20] }}
+                    camera={{ position: [5, 5, 5] }}
                     onCreated={({ gl }) => {
                       gl.setClearColor('white');
                     }}

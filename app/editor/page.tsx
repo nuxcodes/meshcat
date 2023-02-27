@@ -30,6 +30,7 @@ interface PageProps {}
 
 const Page: FC<PageProps> = ({}) => {
   const [isSecond, setisSecond] = useState(false);
+  const [isModel, setisModel] = useState(false);
   const [createSnapshot, setSelectedHdr, setUseHdrAsBackground] =
     useEditorStore(
       (state) => [
@@ -52,7 +53,7 @@ const Page: FC<PageProps> = ({}) => {
   };
   console.log(editableState);
   return (
-    <div className="h-screen w-screen">
+    <div className="relative h-screen w-screen">
       <Canvas
         onCreated={bind({ state: editableState as EditableState })}
         className="invisible"
@@ -69,7 +70,7 @@ const Page: FC<PageProps> = ({}) => {
           penumbra={1}
           uniqueName="Spotlight"
         />
-        {/* <Model path="/models/factory.glb"></Model> */}
+        {!!isModel && <Model path="/models/factory.glb"></Model>}
         <e.pointLight uniqueName="PointLight" />
         <e.mesh uniqueName="Box">
           <boxBufferGeometry />
@@ -82,8 +83,27 @@ const Page: FC<PageProps> = ({}) => {
           </e.mesh>
         )}{' '}
       </Canvas>
+      <div className="z-500">
+        {/* <div className="z-100 absolute top-2 right-8 flex items-center gap-4">
+          <button
+            className=""
+            onClick={() => {
+              setisSecond(true);
+            }}
+          >
+            Add a Box
+          </button>
+          <button
+            className=""
+            onClick={() => {
+              setisModel(true);
+              createSnapshot();
+            }}
+          >
+            Load Model
+          </button>
+        </div> */}
 
-      <div>
         <Editor></Editor>
       </div>
     </div>
