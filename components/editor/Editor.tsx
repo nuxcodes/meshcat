@@ -3,7 +3,7 @@ import React, {
   useLayoutEffect,
   useRef,
   useState,
-  VFC,
+  FC,
   Suspense,
 } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
@@ -61,7 +61,7 @@ export const EditorScene = () => {
   );
 };
 
-const Editor: VFC = () => {
+const Editor: FC = () => {
   const [
     sceneSnapshot,
     editorOpen,

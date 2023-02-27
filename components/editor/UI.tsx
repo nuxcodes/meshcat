@@ -15,6 +15,12 @@ import PropertiesPanel from './PropertiesPanel';
 import ViewportSettings from './ViewportSettings';
 import Button from '../ui/Button';
 import Tooltip from '../ui/Tooltip';
+import { FiChevronDown } from 'react-icons/fi';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from '../ui/DropdownMenu';
 
 const UI: VFC = () => {
   const [
@@ -131,9 +137,23 @@ const UI: VFC = () => {
                 />
               </div>
               <div className="pointer-events-auto">
-                <Button>
-                  <ViewportSettings />
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Tooltip
+                      icon={
+                        <div className="flex items-center gap-2">
+                          <AiFillEye />
+                          <FiChevronDown />
+                        </div>
+                      }
+                      label="Viewport settings"
+                      onClick={() => {}}
+                    ></Tooltip>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <ViewportSettings></ViewportSettings>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
             {/* <div className="absolute right-0 top-0 -z-10">

@@ -1,8 +1,10 @@
 import React, { VFC } from 'react';
 import { useEditorStore } from './store';
 import shallow from 'zustand/shallow';
+import Checkbox from '../ui/Checkbox';
+import { DropdownMenuItem } from '../ui/DropdownMenu';
 
-const ViewportShadingSettings: VFC = () => {
+const ViewportSettings: VFC = () => {
   const [
     showOverlayIcons,
     showGrid,
@@ -23,37 +25,39 @@ const ViewportShadingSettings: VFC = () => {
   );
 
   return (
-    <div className="flex flex-col gap-3">
-      Show grid, axes
-      {/* <FormControl>
-        <Checkbox
-          // @ts-ignore
-          checked={showOverlayIcons}
-          onChange={() => setShowOverlayIcons(!showOverlayIcons)}
-        >
-          Show overlay icons
-        </Checkbox>
-      </FormControl>
-      <FormControl>
-        <Checkbox
-          // @ts-ignore
-          checked={showGrid}
-          onChange={() => setShowGrid(!showGrid)}
-        >
-          Show grid
-        </Checkbox>
-      </FormControl>
-      <FormControl>
-        <Checkbox
-          // @ts-ignore
-          checked={showAxes}
-          onChange={() => setShowAxes(!showAxes)}
-        >
-          Show axes
-        </Checkbox>
-      </FormControl> */}
-    </div>
+    <>
+      <DropdownMenuItem>
+        <form>
+          <Checkbox
+            // @ts-ignore
+            label="Show overlay icons"
+            value={showOverlayIcons}
+            onCheckedChange={() => setShowOverlayIcons(!showOverlayIcons)}
+          />
+        </form>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <form>
+          <Checkbox
+            // @ts-ignore
+            value={showGrid}
+            onCheckedChange={() => setShowGrid(!showGrid)}
+            label="Show grid"
+          />
+        </form>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <form>
+          <Checkbox
+            // @ts-ignore
+            value={showAxes}
+            onCheckedChange={() => setShowAxes(!showAxes)}
+            label="Show axes"
+          />
+        </form>
+      </DropdownMenuItem>
+    </>
   );
 };
 
-export default ViewportShadingSettings;
+export default ViewportSettings;

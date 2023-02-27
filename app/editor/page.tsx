@@ -2,14 +2,7 @@
 
 import type { FC } from 'react';
 import e from '@/components/editor/editable';
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-  VFC,
-  Suspense,
-} from 'react';
+import React, { useRef, useState, VFC, Suspense } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { EditableState, useEditorStore } from '@/components/editor/store';
 import { OrbitControls, Environment, Html } from '@react-three/drei';
