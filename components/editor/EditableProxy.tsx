@@ -17,13 +17,10 @@ import React, {
 import { useHelper, Sphere, Html } from '@react-three/drei';
 import { EditableType, useEditorStore } from './store';
 import shallow from 'zustand/shallow';
-import { BsFillCollectionFill } from '@react-icons/all-files/bs/BsFillCollectionFill';
-import { GiLightProjector } from '@react-icons/all-files/gi/GiLightProjector';
-import { BiSun } from '@react-icons/all-files/bi/BiSun';
-import { GiCube } from '@react-icons/all-files/gi/GiCube';
-import { GiLightBulb } from '@react-icons/all-files/gi/GiLightBulb';
-import { BsCameraVideoFill } from '@react-icons/all-files/bs/BsCameraVideoFill';
-import { IconType } from '@react-icons/all-files';
+import { BsFillCollectionFill, BsCameraVideoFill } from 'react-icons/bs/';
+import { GiLightProjector, GiCube, GiLightBulb } from 'react-icons/gi/';
+import { BiSun } from 'react-icons/bi';
+import { IconType } from 'react-icons';
 
 export interface EditableProxyProps {
   editableName: string;

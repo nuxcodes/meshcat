@@ -229,10 +229,9 @@ interface PersistedState {
 }
 
 const config: StateCreator<EditorStore> = (set, get) => {
+  // TODO: better way to set hdrPaths
   setTimeout(() => {
-    const existingHandler = DefaultLoadingManager.onProgress;
     DefaultLoadingManager.onProgress = (url, loaded, total) => {
-      existingHandler(url, loaded, total);
       if (url.match(/\.hdr$/)) {
         set((state) => {
           const newPaths = new Set(state.hdrPaths);
@@ -255,7 +254,7 @@ const config: StateCreator<EditorStore> = (set, get) => {
     transformControlsMode: 'translate',
     transformControlsSpace: 'world',
     viewportShading: 'rendered',
-    editorOpen: false,
+    editorOpen: true,
     sceneSnapshot: null,
     editablesSnapshot: null,
     hdrPaths: [],

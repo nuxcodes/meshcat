@@ -1,13 +1,10 @@
 import React, { ReactElement, VFC } from 'react';
 import { EditableType, useEditorStore } from './store';
 import shallow from 'zustand/shallow';
-import { IconType } from '@react-icons/all-files';
-import { BsFillCollectionFill } from '@react-icons/all-files/bs/BsFillCollectionFill';
-import { GiLightProjector } from '@react-icons/all-files/gi/GiLightProjector';
-import { BiSun } from '@react-icons/all-files/bi/BiSun';
-import { GiCube } from '@react-icons/all-files/gi/GiCube';
-import { GiLightBulb } from '@react-icons/all-files/gi/GiLightBulb';
-import { BsCameraVideoFill } from '@react-icons/all-files/bs/BsCameraVideoFill';
+import { IconType } from 'react-icons';
+import { BsFillCollectionFill, BsCameraVideoFill } from 'react-icons/bs/';
+import { BiSun } from 'react-icons/bi/';
+import { GiCube, GiLightBulb, GiLightProjector } from 'react-icons/gi/';
 import { ButtonProps } from '@ui/Button';
 import Button from '@ui/Button';
 
@@ -54,7 +51,7 @@ const ObjectButton: VFC<ObjectButtonProps> = ({
       }`}
       {...props}
     >
-      {/* <span className="mr-2">{icon}</span> */}
+      <span className="mr-2">{icon}</span>
       {objectName}
     </Button>
   );

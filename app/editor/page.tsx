@@ -24,6 +24,7 @@ import { configure } from '@/components/editor/store';
 import Editor, { EditorScene } from '@/components/editor/Editor';
 import UI from '@/components/editor/UI';
 import { json } from 'stream/consumers';
+import Model from '@/components/editor/Model';
 
 const bind = configure({
   // Enables persistence in development so your edits aren't discarded when you close the browser window
@@ -36,10 +37,15 @@ interface PageProps {}
 
 const Page: FC<PageProps> = ({}) => {
   const [isSecond, setisSecond] = useState(false);
-  const [createSnapshot] = useEditorStore(
-    (state) => [state.createSnapshot],
-    shallow,
-  );
+  const [createSnapshot, setSelectedHdr, setUseHdrAsBackground] =
+    useEditorStore(
+      (state) => [
+        state.createSnapshot,
+        state.setSelectedHdr,
+        state.setUseHdrAsBackground,
+      ],
+      shallow,
+    );
   editableState.editables['Boxxx'] = {
     type: 'mesh',
     properties: {
@@ -54,18 +60,14 @@ const Page: FC<PageProps> = ({}) => {
   console.log(editableState);
   return (
     <div className="h-screen w-screen">
-      <h1>sdafasd</h1>
-      <button
-        className=""
-        onClick={() => {
-          setisSecond(true);
-          createSnapshot();
-        }}
+      <Canvas
+        onCreated={bind({ state: editableState as EditableState })}
+        className="invisible"
       >
-        Button
-      </button>
-      <Canvas onCreated={bind({ state: editableState as EditableState })}>
-        <ambientLight intensity={0.5} />
+        <Suspense fallback={null}>
+          <Environment files="equi.hdr" path="/" />
+        </Suspense>
+        <ambientLight intensity={0.9} />
         {/* Mark objects as editable. */}
         {/* Properties in the code are used as initial values and reset points in the editor. */}
         <e.spotLight
@@ -74,6 +76,7 @@ const Page: FC<PageProps> = ({}) => {
           penumbra={1}
           uniqueName="Spotlight"
         />
+        {/* <Model path="/models/factory.glb"></Model> */}
         <e.pointLight uniqueName="PointLight" />
         <e.mesh uniqueName="Box">
           <boxBufferGeometry />
@@ -84,8 +87,9 @@ const Page: FC<PageProps> = ({}) => {
             <boxBufferGeometry />
             <meshStandardMaterial color="orange" />
           </e.mesh>
-        )}
+        )}{' '}
       </Canvas>
+
       <div>
         <Editor></Editor>
       </div>

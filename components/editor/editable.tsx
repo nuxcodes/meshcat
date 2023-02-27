@@ -1,3 +1,5 @@
+'use client';
+
 import React, {
   ComponentProps,
   forwardRef,
@@ -78,9 +80,10 @@ const editable = <
         );
       });
 
-      // useEffect(() => {
-      //   createSnapshot();
-      // }, []);
+      useEffect(() => {
+        console.log('Snapshot created');
+        createSnapshot();
+      }, []);
 
       useLayoutEffect(() => {
         // calculate initial properties before adding the editable

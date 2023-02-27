@@ -1,4 +1,5 @@
 import React, {
+  Fragment,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -72,7 +73,7 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
     if (!sceneProxy) {
       return;
     }
-    console.log('1st Layout');
+    // console.log('1st Layout');
 
     const editableProxies: { [name: string]: EditableProxy } = {};
 
@@ -86,6 +87,7 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
           editableProxies[object.userData.__editableName] = {
             portal: createPortal(
               <EditableProxy
+                key={object.userData.__editableName}
                 editableName={object.userData.__editableName}
                 editableType={object.userData.__editableType}
                 object={object}
@@ -107,7 +109,7 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
       return;
     }
 
-    console.log('2nd Effect');
+    // console.log('2nd Effect');
 
     const unsub = useEditorStore.subscribe(
       (transform) => {
@@ -134,19 +136,14 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
       return;
     }
 
-    console.log('3rd Layout');
+    // console.log('3rd Layout');
 
     const renderMaterials: {
       [id: string]: Material | Material[];
     } = {};
 
     sceneProxy.traverse((object) => {
-      console.log(object.userData);
-      console.log(object.id);
-      console.log(sceneProxy.getObjectById(object.id));
-
       const mesh = object as Mesh;
-      console.log(mesh.material);
       if (mesh.isMesh && !mesh.userData.helper) {
         renderMaterials[mesh.id] = mesh.material;
       }
@@ -167,7 +164,7 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
       return;
     }
 
-    console.log('4th Layout');
+    // console.log('4th Layout');
 
     sceneProxy.traverse((object) => {
       const mesh = object as Mesh;
@@ -219,6 +216,9 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
             mesh.material = material;
             break;
           case 'rendered':
+            if (!renderMaterials[mesh.id]) {
+              return;
+            }
             mesh.material = renderMaterials[mesh.id];
         }
       }

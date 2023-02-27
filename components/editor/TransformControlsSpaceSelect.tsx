@@ -1,7 +1,7 @@
 import React, { VFC } from 'react';
 import { TransformControlsSpace } from './store';
-import { BiGlobe } from '@react-icons/all-files/bi/BiGlobe';
-import { BiCube } from '@react-icons/all-files/bi/BiCube';
+import { BiGlobe, BiCube } from 'react-icons/bi/';
+import TooltipToggleGroup from '../ui/TooltipToggleGroup';
 
 export interface TransformControlsSpaceSelectProps {
   value: TransformControlsSpace;
@@ -12,23 +12,22 @@ const TransformControlsSpaceSelect: VFC<TransformControlsSpaceSelectProps> = ({
   value,
   onChange,
 }) => (
-  <div></div>
-  // <CompactModeSelect
-  //   value={value}
-  //   onChange={onChange}
-  //   options={[
-  //     {
-  //       option: 'world',
-  //       label: 'Space: World',
-  //       icon: <BiGlobe />,
-  //     },
-  //     {
-  //       option: 'local',
-  //       label: 'Space: Local',
-  //       icon: <BiCube />,
-  //     },
-  //   ]}
-  // />
+  <TooltipToggleGroup
+    value={value}
+    onChange={onChange as (value: string) => void}
+    options={[
+      {
+        option: 'world',
+        label: 'Space: World',
+        icon: <BiGlobe />,
+      },
+      {
+        option: 'local',
+        label: 'Space: Local',
+        icon: <BiCube />,
+      },
+    ]}
+  />
 );
 
 export default TransformControlsSpaceSelect;

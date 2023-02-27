@@ -12,7 +12,7 @@ const styles = cva('flex items-center justify-center px-6 py-4 font-semibold', {
     intent: {
       gradient:
         'bg-gradient-to-r from-berry via-fountain to-violet rounded-lg transition-all bg-[length:200%_100%] bg-left hover:bg-right duration-[200ms] ease-in',
-      primary: 'bg-berry text-white clip-corner transition-all 0.5s ease-in',
+      primary: 'bg-berry text-white rounded-md',
       secondary: 'bg-gray text-white',
       danger: 'bg-red text-white',
     },
@@ -23,7 +23,7 @@ const styles = cva('flex items-center justify-center px-6 py-4 font-semibold', {
 });
 
 const Button: FC<ButtonProps> = ({
-  intent = 'gradient',
+  intent = 'primary',
   fullWidth,
   ...props
 }) => {

@@ -5,15 +5,16 @@ import shallow from 'zustand/shallow';
 import ReferenceWindow from './ReferenceWindow';
 import { saveAs } from 'file-saver';
 import { Vector3 } from 'three';
-import { RiFocus3Line } from '@react-icons/all-files/ri/RiFocus3Line';
-import { GiPocketBow } from '@react-icons/all-files/gi/GiPocketBow';
-import { AiFillEye } from '@react-icons/all-files/ai/AiFillEye';
+import { RiFocus3Line } from 'react-icons/ri/';
+import { GiPocketBow } from 'react-icons/gi/';
+import { AiFillEye } from 'react-icons/ai/';
 import TransformControlsSpaceSelect from './TransformControlsSpaceSelect';
 import ViewportShadingSelect from './ViewportShadingSelect';
 import SceneOutlinePanel from './SceneOutlinePanel';
 import PropertiesPanel from './PropertiesPanel';
 import ViewportSettings from './ViewportSettings';
 import Button from '../ui/Button';
+import Tooltip from '../ui/Tooltip';
 
 const UI: VFC = () => {
   const [
@@ -67,7 +68,9 @@ const UI: VFC = () => {
                 />
               </div>
               <div className="pointer-events-auto">
-                <Button
+                <Tooltip
+                  label="Focus on selected"
+                  icon={<RiFocus3Line />}
                   onClick={() => {
                     const orbitControls =
                       useEditorStore.getState().orbitControlsRef?.current;
@@ -86,13 +89,12 @@ const UI: VFC = () => {
                       );
                     }
                   }}
-                >
-                  {' '}
-                  Focus on selected
-                </Button>
+                />
               </div>
               <div className="pointer-events-auto">
-                <Button
+                <Tooltip
+                  label="Align object to view"
+                  icon={<GiPocketBow />}
                   onClick={() => {
                     const camera =
                       useEditorStore.getState().orbitControlsRef?.current
@@ -126,9 +128,7 @@ const UI: VFC = () => {
                       }
                     }
                   }}
-                >
-                  Align object to view
-                </Button>
+                />
               </div>
               <div className="pointer-events-auto">
                 <Button>
@@ -136,18 +136,10 @@ const UI: VFC = () => {
                 </Button>
               </div>
             </div>
-            <div className="absolute right-0 top-0 -z-10">
+            {/* <div className="absolute right-0 top-0 -z-10">
               <ReferenceWindow height={120} />
-            </div>
+            </div> */}
           </div>
-
-          {/* Bottom-left corner*/}
-          <Button
-            className="pointer-events-auto absolute left-0 bottom-0"
-            onClick={() => setEditorOpen(false)}
-          >
-            Close
-          </Button>
 
           {/* Bottom-right corner */}
           <Button

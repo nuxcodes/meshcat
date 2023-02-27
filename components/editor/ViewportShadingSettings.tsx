@@ -1,6 +1,8 @@
 import React, { VFC } from 'react';
 import { useEditorStore } from './store';
 import shallow from 'zustand/shallow';
+import EnvironmentPreview from './EnvironmentPreview';
+import Checkbox from '../ui/Checkbox';
 
 const ViewportShadingSettings: VFC = () => {
   const [
@@ -22,9 +24,9 @@ const ViewportShadingSettings: VFC = () => {
 
   return (
     <div className="w-full">
-      <h1 className="mb-3 text-xl">Environment</h1>
-      <div className="flex flex-col gap-3">
-        {/* <div className="grid grid-cols-2 gap-4 auto-rows-16">
+      <div className="flex flex-col gap-4">
+        <h1 className="font-body text-lg">Environment</h1>
+        <div className="auto-rows-16 grid grid-cols-2 gap-4">
           <EnvironmentPreview
             url={null}
             selected={selectedHdr === null}
@@ -42,15 +44,12 @@ const ViewportShadingSettings: VFC = () => {
               }}
             />
           ))}
-        </div> */}
-        {/* <FormControl>
-          <Checkbox
-            checked={useHdrAsBackground}
-            onChange={() => setUseHdrAsBackground(!useHdrAsBackground)}
-          >
-            Use as background
-          </Checkbox>
-        </FormControl> */}
+        </div>
+        <Checkbox
+          value={useHdrAsBackground}
+          label={'Use as Background'}
+          onCheckedChange={setUseHdrAsBackground}
+        ></Checkbox>
       </div>
     </div>
   );

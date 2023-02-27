@@ -3,7 +3,7 @@ import { useForm, UseFormRegister } from 'react-hook-form';
 import { useEditorStore } from './store';
 import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 import shallow from 'zustand/shallow';
-import { MdRestore } from '@react-icons/all-files/md/MdRestore';
+import { MdRestore } from 'react-icons/md/';
 import Button from '../ui/Button';
 
 interface Vector3InputProps {

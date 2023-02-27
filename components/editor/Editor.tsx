@@ -68,7 +68,6 @@ const Editor: VFC = () => {
     initialState,
     setEditorOpen,
     setSelected,
-    createSnapshot,
     isPersistedStateDifferentThanInitial,
     applyPersistedState,
   ] = useEditorStore(
@@ -78,7 +77,6 @@ const Editor: VFC = () => {
       state.initialState,
       state.setEditorOpen,
       state.setSelected,
-      state.createSnapshot,
       state.isPersistedStateDifferentThanInitial,
       state.applyPersistedState,
     ],
@@ -98,74 +96,53 @@ const Editor: VFC = () => {
   return (
     <div id="react-three-editable-editor-root">
       <div className="relative z-50 h-screen w-screen ">
-        <div
-          className={`fixed ${
-            editorOpen ? 'block' : 'hidden'
-          } inset-0 translate-y-10`}
-        >
-          {true ? (
-            <>
-              <div className="relative z-0 h-screen w-screen">
-                <Canvas
-                  camera={{ position: [20, 20, 20] }}
-                  onCreated={({ gl }) => {
-                    gl.setClearColor('white');
-                  }}
-                  dpr={window.devicePixelRatio}
-                  onPointerMissed={() => setSelected(null)}
-                >
-                  <EditorScene />
-                </Canvas>
-              </div>
-
-              <UI />
-            </>
-          ) : (
-            <div className="flex h-screen items-center justify-center bg-white">
-              <div className="flex flex-col items-center gap-5 ">
-                <h1 className="mb-4 text-2xl">No canvas connected</h1>
-                <div>to connect a canvas to React Three Editable.</div>
-
-                <div>
-                  For more details, please consult the{' '}
-                  <a
-                    className="rounded-md font-medium text-green-600 hover:text-green-500"
-                    href="https://github.com/AndrewPrifer/react-three-editable"
-                    rel="noreferrer"
-                    target="_blank"
+        <div className={`fixed ${editorOpen ? 'block' : 'hidden'} inset-0 `}>
+          {
+            sceneSnapshot ? (
+              <>
+                <div className="relative z-0 h-screen w-screen">
+                  <Canvas
+                    camera={{ position: [20, 20, 20] }}
+                    onCreated={({ gl }) => {
+                      gl.setClearColor('white');
+                    }}
+                    dpr={window.devicePixelRatio}
+                    onPointerMissed={() => setSelected(null)}
                   >
-                    documentation
-                  </a>
-                  .
+                    <EditorScene />
+                  </Canvas>
                 </div>
-                <Button
-                  className=""
-                  onClick={() => {
-                    setEditorOpen(false);
-                  }}
-                >
-                  Close
-                </Button>
+
+                <UI />
+              </>
+            ) : (
+              <div className="flex h-full w-full items-center justify-center">
+                <h1>Loading Editor...</h1>
               </div>
-            </div>
-          )}
+            )
+            // (
+            //   <div className="flex h-screen items-center justify-center bg-white">
+            //     <div className="flex flex-col items-center gap-5 ">
+            //       <h1 className="mb-4 text-2xl">No canvas connected</h1>
+            //       <div>to connect a canvas to React Three Editable.</div>
+
+            //       <div>
+            //         For more details, please consult the{' '}
+            //         <a
+            //           className="rounded-md font-medium text-green-600 hover:text-green-500"
+            //           href="https://github.com/AndrewPrifer/react-three-editable"
+            //           rel="noreferrer"
+            //           target="_blank"
+            //         >
+            //           documentation
+            //         </a>
+            //         .
+            //       </div>
+            //     </div>
+            //   </div>
+            // )
+          }
         </div>
-        {editorOpen || (
-          <Button
-            className="fixed bottom-5 left-5"
-            onClick={() => {
-              // if (!sceneSnapshot) {
-              //   createSnapshot();
-              // }
-              if (!sceneSnapshot) {
-                createSnapshot();
-              }
-              setEditorOpen(true);
-            }}
-          >
-            Editor
-          </Button>
-        )}
       </div>
       {/* <Modal visible={stateMismatch}>
             <ModalHeader>Saved state found</ModalHeader>
