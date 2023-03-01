@@ -6,9 +6,16 @@ import React, {
   FC,
   Suspense,
 } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useEditorStore } from './store';
-import { OrbitControls, Environment, Html } from '@react-three/drei';
+import { useEvent } from 'react-use/';
+import {
+  OrbitControls,
+  Environment,
+  Html,
+  PointerLockControls,
+  FlyControls,
+} from '@react-three/drei';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import shallow from 'zustand/shallow';
 // import styles from '../styles.css';
@@ -16,7 +23,10 @@ import UI from './UI';
 import ProxyManager from './ProxyManager';
 import Button from '../ui/Button';
 import ReactShadowRoot from 'react-shadow-root';
-export const EditorScene = () => {
+import { render } from 'react-dom';
+import * as THREE from 'three';
+import { is } from 'immer/dist/internal';
+export const EditorScene = ({ gl }: { gl: THREE.WebGLRenderer | null }) => {
   const orbitControlsRef = useRef<OrbitControlsImpl>(null);
   const { camera } = useThree();
 
@@ -37,9 +47,82 @@ export const EditorScene = () => {
     shallow,
   );
 
+  // const renderer = new THREE.WebGLRenderer();
+  const keyPressed = useRef({});
+
+  const handleKeyDown = (e) => {
+    console.log(keyPressed);
+    if (!keyPressed[e.key]) {
+      keyPressed[e.key] = new Date().getTime();
+    }
+  };
+
+  const handleKeyUp = (e) => {
+    delete keyPressed[e.key];
+  };
+
+  useEvent('keydown', handleKeyDown);
+  useEvent('keyup', handleKeyUp);
+
   useEffect(() => {
     setOrbitControlsRef(orbitControlsRef);
   }, [camera, setOrbitControlsRef]);
+
+  useFrame((_, delta) => {
+    let pos = camera.position;
+    let t = new THREE.Vector3(0, 0, 0);
+    if (orbitControlsRef.current) {
+      t = orbitControlsRef.current.target;
+    }
+    pos = t.clone().sub(pos);
+    const updateOrbit = () => {
+      if (orbitControlsRef.current)
+        orbitControlsRef.current.target = camera.position.clone().add(pos);
+    };
+
+    // move camera according to key pressed
+    Object.entries(keyPressed).forEach((e) => {
+      const [key, start] = e;
+      const duration = new Date().getTime() - start;
+
+      // increase momentum if key pressed longer
+      let momentum = Math.sqrt(duration + 200) * 0.01 + 0.05;
+
+      // adjust for actual time passed
+      momentum = (momentum * delta) / 0.016;
+
+      // increase momentum if camera higher
+      // momentum = momentum + camera.position.z * 0.02;
+
+      switch (key) {
+        case 'w':
+          camera.translateZ(-momentum);
+          updateOrbit();
+          break;
+        case 's':
+          camera.translateZ(momentum);
+          updateOrbit();
+          break;
+        case 'd':
+          camera.translateX(momentum);
+          updateOrbit();
+          break;
+        case 'a':
+          camera.translateX(-momentum);
+          updateOrbit();
+          break;
+        case 'q':
+          camera.translateY(momentum);
+          updateOrbit();
+          break;
+        case 'e':
+          camera.translateY(-momentum);
+          updateOrbit();
+          break;
+        default:
+      }
+    });
+  });
 
   return (
     <>
@@ -55,13 +138,15 @@ export const EditorScene = () => {
       </Suspense>
       {showGrid && <gridHelper args={[1000, 1000, 0x444444, 0x888888]} />}
       {showAxes && <axesHelper args={[500]} />}
-      <OrbitControls
-        ref={orbitControlsRef}
-        panSpeed={0.1}
-        zoomSpeed={0.1}
-        keys={{ LEFT: 'A', RIGHT: 'D', UP: 'W', BOTTOM: 'S' }}
-        keyPanSpeed={4}
-      />
+
+      {true && (
+        <OrbitControls
+          ref={orbitControlsRef}
+          panSpeed={0.1}
+          zoomSpeed={0.1}
+          // listenToKeyEvents={window as any}
+        />
+      )}
       <ProxyManager orbitControlsRef={orbitControlsRef} />
     </>
   );
@@ -90,6 +175,7 @@ const Editor: FC = () => {
   );
 
   const [stateMismatch, setStateMismatch] = useState(false);
+  let glV: THREE.WebGLRenderer | null = null;
 
   useLayoutEffect(() => {
     if (initialState) {
@@ -102,52 +188,34 @@ const Editor: FC = () => {
   return (
     <div id="react-three-editable-editor-root">
       <div className="relative z-50 h-screen w-screen ">
-        <div className={`fixed ${editorOpen ? 'block' : 'hidden'} inset-0`}>
-          {
-            sceneSnapshot ? (
-              <>
-                <div className="z-100 relative h-screen w-screen">
-                  <Canvas
-                    camera={{ position: [5, 5, 5] }}
-                    onCreated={({ gl }) => {
-                      gl.setClearColor('white');
-                    }}
-                    dpr={window.devicePixelRatio}
-                    onPointerMissed={() => setSelected(null)}
-                  >
-                    <EditorScene />
-                  </Canvas>
-                </div>
-
-                <UI />
-              </>
-            ) : (
-              <div className="flex h-full w-full items-center justify-center">
-                <h1>Loading Editor...</h1>
+        <div
+          className={`fixed ${
+            editorOpen ? 'block' : 'hidden'
+          } inset-0 translate-y-10`}
+        >
+          {sceneSnapshot ? (
+            <>
+              <div className="z-100 relative h-screen w-screen">
+                <Canvas
+                  camera={{ position: [5, 5, 5] }}
+                  onCreated={({ gl }) => {
+                    glV = gl;
+                    gl.setClearColor('white');
+                  }}
+                  dpr={window.devicePixelRatio}
+                  onPointerMissed={() => setSelected(null)}
+                >
+                  <EditorScene gl={glV} />
+                </Canvas>
               </div>
-            )
-            // (
-            //   <div className="flex h-screen items-center justify-center bg-white">
-            //     <div className="flex flex-col items-center gap-5 ">
-            //       <h1 className="mb-4 text-2xl">No canvas connected</h1>
-            //       <div>to connect a canvas to React Three Editable.</div>
 
-            //       <div>
-            //         For more details, please consult the{' '}
-            //         <a
-            //           className="rounded-md font-medium text-green-600 hover:text-green-500"
-            //           href="https://github.com/AndrewPrifer/react-three-editable"
-            //           rel="noreferrer"
-            //           target="_blank"
-            //         >
-            //           documentation
-            //         </a>
-            //         .
-            //       </div>
-            //     </div>
-            //   </div>
-            // )
-          }
+              <UI />
+            </>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <h1>Loading Editor...</h1>
+            </div>
+          )}
         </div>
       </div>
       {/* <Modal visible={stateMismatch}>

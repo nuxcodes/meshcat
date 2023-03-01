@@ -84,7 +84,7 @@ const Page: FC<PageProps> = ({}) => {
         )}{' '}
       </Canvas>
       <div className="z-500">
-        {/* <div className="z-100 absolute top-2 right-8 flex items-center gap-4">
+        <div className="z-100 absolute top-2 right-8 flex items-center gap-4">
           <button
             className=""
             onClick={() => {
@@ -102,7 +102,7 @@ const Page: FC<PageProps> = ({}) => {
           >
             Load Model
           </button>
-        </div> */}
+        </div>
 
         <Editor></Editor>
       </div>
