@@ -163,6 +163,7 @@ export type OrbitControlsType =
 export type EditorStore = {
   scene: Scene | null;
   gl: WebGLRenderer | null;
+  model: string | boolean;
   allowImplicitInstancing: boolean;
   orbitControlsRef: OrbitControlsType;
   editables: Record<string, Editable>;
@@ -186,6 +187,7 @@ export type EditorStore = {
   init: (
     scene: Scene,
     gl: WebGLRenderer,
+    model: string | boolean,
     allowImplicitInstancing: boolean,
     initialState?: EditableState,
   ) => void;
@@ -211,6 +213,7 @@ export type EditorStore = {
   setUseHdrAsBackground: (use: boolean) => void;
   setShowGrid: (show: boolean) => void;
   setShowAxes: (show: boolean) => void;
+  setModel: (model: string | boolean) => void;
   setEditorOpen: (open: boolean) => void;
   createSnapshot: () => void;
   setSnapshotProxyObject: (
@@ -245,6 +248,7 @@ const config: StateCreator<EditorStore> = (set, get) => {
   return {
     scene: null,
     gl: null,
+    model: false,
     allowImplicitInstancing: false,
     orbitControlsRef: null,
     editables: {},
@@ -264,7 +268,7 @@ const config: StateCreator<EditorStore> = (set, get) => {
     showGrid: true,
     showAxes: true,
 
-    init: (scene, gl, allowImplicitInstancing, initialState) => {
+    init: (scene, gl, model, allowImplicitInstancing, initialState) => {
       const editables = get().editables;
 
       const newEditables: Record<string, Editable> = initialState
@@ -293,6 +297,7 @@ const config: StateCreator<EditorStore> = (set, get) => {
       set({
         scene,
         gl,
+        model,
         allowImplicitInstancing,
         editables: newEditables,
         initialState,
@@ -360,6 +365,9 @@ const config: StateCreator<EditorStore> = (set, get) => {
           },
         },
       }));
+    },
+    setModel: (model) => {
+      set({ model: model });
     },
     setSelected: (name) => {
       set({ selected: name });
@@ -542,7 +550,7 @@ export const configure = ({
   return ({ allowImplicitInstancing = false, state } = {}) => {
     return ({ gl, scene }) => {
       const init = useEditorStore.getState().init;
-      init(scene, gl, allowImplicitInstancing, state);
+      init(scene, gl, false, allowImplicitInstancing, state);
     };
   };
 };

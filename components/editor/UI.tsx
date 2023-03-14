@@ -49,9 +49,6 @@ const UI: VFC = () => {
   return (
     <div className="pointer-events-none absolute inset-0 z-50">
       <div className="flex h-full">
-        <div className="pointer-events-auto w-min">
-          <SceneOutlinePanel />
-        </div>
         <div className="relative m-5 flex-1">
           <div className="flex items-start justify-between">
             <div className="flex gap-4">
@@ -160,24 +157,13 @@ const UI: VFC = () => {
               <ReferenceWindow height={120} />
             </div> */}
           </div>
-
-          {/* Bottom-right corner */}
-          <Button
-            className="pointer-events-auto absolute right-0 bottom-0"
-            onClick={() => {
-              const blob = new Blob(
-                [JSON.stringify(useEditorStore.getState().serialize())],
-                { type: 'text/json;charset=utf-8' },
-              );
-              saveAs(blob, 'editableState.json');
-            }}
-          >
-            Save
-          </Button>
         </div>
         <div className="pointer-events-auto w-min">
-          <PropertiesPanel />
+          <SceneOutlinePanel />
         </div>
+        {/* <div className="pointer-events-auto w-min">
+          <PropertiesPanel />
+        </div> */}
       </div>
     </div>
   );

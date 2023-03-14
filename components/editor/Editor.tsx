@@ -26,7 +26,7 @@ import ReactShadowRoot from 'react-shadow-root';
 import { render } from 'react-dom';
 import * as THREE from 'three';
 import { is } from 'immer/dist/internal';
-export const EditorScene = ({ gl }: { gl: THREE.WebGLRenderer | null }) => {
+export const EditorScene = () => {
   const orbitControlsRef = useRef<OrbitControlsImpl>(null);
   const { camera } = useThree();
 
@@ -188,24 +188,16 @@ const Editor: FC = () => {
   return (
     <div id="react-three-editable-editor-root">
       <div className="relative z-50 h-screen w-screen ">
-        <div
-          className={`fixed ${
-            editorOpen ? 'block' : 'hidden'
-          } inset-0 translate-y-10`}
-        >
+        <div className={`fixed ${editorOpen ? 'block' : 'hidden'} inset-0`}>
           {sceneSnapshot ? (
             <>
               <div className="z-100 relative h-screen w-screen">
                 <Canvas
                   camera={{ position: [5, 5, 5] }}
-                  onCreated={({ gl }) => {
-                    glV = gl;
-                    gl.setClearColor('white');
-                  }}
                   dpr={window.devicePixelRatio}
                   onPointerMissed={() => setSelected(null)}
                 >
-                  <EditorScene gl={glV} />
+                  <EditorScene />
                 </Canvas>
               </div>
 

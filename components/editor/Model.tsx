@@ -2,16 +2,37 @@
 
 import { useGLTF } from '@react-three/drei';
 import { useLoader } from '@react-three/fiber';
-import type { FC } from 'react';
+import { FC, useEffect } from 'react';
 import * as THREE from 'three';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import shallow from 'zustand/shallow';
+import { useEditorStore } from './store';
 
 interface ModelProps {
   path: string;
 }
 
 const Model: FC<ModelProps> = ({ path }) => {
-  const model = useLoader(GLTFLoader, path);
+  const model = useLoader(
+    GLTFLoader,
+    path,
+    //   (loader) => {
+    //   const dracoLoader = new DRACOLoader();
+    //   dracoLoader.setDecoderPath(
+    //     'https://www.gstatic.com/draco/versioned/decoders/1.5.6/',
+    //   );
+    //   loader.setDRACOLoader(dracoLoader);
+    // }
+  );
+  const [createSnapshot] = useEditorStore(
+    (state) => [state.createSnapshot],
+    shallow,
+  );
+
+  useEffect(() => {
+    createSnapshot();
+  }, []);
   return (
     <primitive
       object={model.scene}

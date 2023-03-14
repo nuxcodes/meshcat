@@ -5,6 +5,7 @@ import { Euler, Matrix4, Quaternion, Vector3 } from 'three';
 import shallow from 'zustand/shallow';
 import { MdRestore } from 'react-icons/md/';
 import Button from '../ui/Button';
+import editable from './editable';
 
 interface Vector3InputProps {
   register: any;
@@ -122,7 +123,7 @@ const PropertiesPanel: VFC = () => {
   }, [getFormValuesFromEditable, selected, setValue]);
 
   return selected ? (
-    <div className="h-full w-80 overflow-y-auto border-l bg-white p-5">
+    <div className="w-full overflow-y-auto border-l bg-white p-5">
       <h1 className="mb-5 text-3xl">Properties</h1>
       <form
         onSubmit={handleSubmit((values) => {
@@ -163,6 +164,11 @@ const PropertiesPanel: VFC = () => {
             >
               <MdRestore />
             </Button>
+          </div>
+          <div className="flex w-full items-start justify-evenly">
+            <span>{getFormValuesFromEditable()?.positionX}</span>
+            <span>{getFormValuesFromEditable()?.positionY}</span>
+            <span>{getFormValuesFromEditable()?.positionZ}</span>
           </div>
           <Vector3Input
             register={register}
